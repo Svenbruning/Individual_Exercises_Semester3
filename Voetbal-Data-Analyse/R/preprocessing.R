@@ -71,7 +71,7 @@ matches <- matches %>%
   left_join(leagues_raw %>% select(id, name), by = c("league_id" = "id")) %>%
   rename(league_name = name)
 
-# 9. Samenvattende statistieken
+# 7. Samenvattende statistieken
 player_summary <- player_attr %>%
   group_by(player_api_id) %>%
   summarise(
@@ -92,9 +92,10 @@ team_summary <- team_attr %>%
     avg_defenceAggression = mean(defenceAggression, na.rm = TRUE)
   )
 
+# 8. Teamattributen koppelen aan wedstrijden.
 matches <- matches %>% left_join(team_summary, by = c("home_team_api_id" = "team_api_id"))
 
-# 8. Opslaan van schone datasets
+# 9. Opslaan van schone datasets
 save(matches, player_attr, team_attr, player_summary, team_summary,
      countries_raw, leagues_raw, teams_raw, players_raw,
      file = "Data/clean_data.RData")
