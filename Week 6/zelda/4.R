@@ -4,7 +4,7 @@ load("zelda.RData")
 
 # Filter titels waar Shigeru Miyamoto producer was
 zelda <- zelda %>%
-  filter(str_detect(producers, "Shigeru Miyamoto")) %>%
+  filter(str_detect(Producers, "Shigeru Miyamoto")) %>%
   group_by(title) %>%
   filter(year == min(year)) %>%
   arrange(year, title, system) %>%
