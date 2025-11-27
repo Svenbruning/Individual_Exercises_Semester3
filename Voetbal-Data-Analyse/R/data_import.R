@@ -20,3 +20,4 @@ team_attr_raw <- dbReadTable(connection, "Team_Attributes")
 names(matches_raw)
 # Data opslaan als RData
 save(countries_raw, leagues_raw, matches_raw, players_raw, player_attr_raw, teams_raw, team_attr_raw, file = "Data/raw_data.RData")
+

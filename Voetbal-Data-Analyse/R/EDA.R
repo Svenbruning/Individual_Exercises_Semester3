@@ -30,7 +30,7 @@ cat(sprintf("Gemiddeld totaal doelpunten: %.2f\n", match_stats$gemiddeld_totaal_
 cat(sprintf("Mediaan totaal doelpunten: %.2f\n", match_stats$mediaan_totaal_doelpunten))
 cat(sprintf("Gemiddeld thuisdoelpunten: %.2f\n", match_stats$gemiddeld_thuisdoelpunten))
 cat(sprintf("Gemiddeld uitdoelpunten: %.2f\n", match_stats$gemiddeld_uitdoelpunten))
-cat(sprintf("Gemiddeld doelpuntverschil: %.2f\n", match_stats$gemiddeld_doelpuntverschil))
+cat(sprintf("Gemiddeld doelpuntenverschil: %.2f\n", match_stats$gemiddeld_doelpuntverschil))
 
 # 3. Verdeling van wedstrijdresultaten
 result_distribution <- matches %>%
@@ -41,13 +41,12 @@ result_distribution <- matches %>%
 cat("\nVERDELING VAN WEDSTRIJDRESULTATEN\n")
 print(result_distribution)
 
-#4 Trends per seizoen en competitie
-# Gemiddelde doelpunten per seizoen en competitie
+# 4. Gemiddelde doelpunten per seizoen en competitie
 trend_season_league <- matches %>%
   group_by(season, league_name) %>%
   summarise(
     gemiddeld_totaal_doelpunten = mean(total_goals, na.rm = TRUE),
-    gemiddeld_thuisdoelpunten = mean(home_team_goal, na.rm = TRUE),
+    gemiddeld_thuisdoelpunten = mean(home_team_goal, na.rm = TRUE),      
     gemiddeld_uitdoelpunten = mean(away_team_goal, na.rm = TRUE),
     aantal_wedstrijden = n(),
     .groups = "drop"
@@ -55,19 +54,18 @@ trend_season_league <- matches %>%
   arrange(season)
 
 cat("\nGEMIDDELDE DOELPUNTEN PER SEIZOEN EN COMPETITIE\n")
-print(head(trend_season_league, 20))
+print(trend_season_league)
 
 # 5. Correlatie tussen teamstijl en prestaties
 team_play_corr <- matches %>%
   select(
     avg_buildUpSpeed, avg_buildUpPassing, avg_chanceCreationPassing,
-    avg_chanceCreationShooting, avg_defencePressure, avg_defenceAggression,
-    total_goals
+    avg_chanceCreationShooting, avg_defencePressure, avg_defenceAggression
   ) %>%
   drop_na() %>%
   cor(use = "complete.obs")
 
-cat("\nCORRELATIE TUSSEN TEAMATTRIBUTES EN DOELPUNTEN\n")
+cat("\nCORRELATIE TUSSEN TEAMATTRIBUTES\n")
 print(round(team_play_corr, 2))
 
 # 6. Thuis- versus uitprestaties
@@ -97,7 +95,7 @@ league_analysis <- matches %>%
   ) %>%
   arrange(desc(gemiddeld_doelpunten))
 
-cat("\nCOMPETITIEANALYSE (TOP 10 OP GEMIDDELDE DOELPUNTEN\n")
+cat("\nCOMPETITIEANALYSE (TOP 10 OP GEMIDDELDE DOELPUNTEN)\n")
 print(head(league_analysis, 10))
 
 # 8. Correlatiematrix tussen doelpuntgerelateerde variabelen
@@ -106,6 +104,7 @@ corr_data <- matches %>%
   drop_na()
 
 cor_matrix <- cor(corr_data)
+cat("\nCORRELATIEMATRIX TUSSEN DOELPUNTGERELATEERDE VARIABELEN\n")
 print(round(cor_matrix, 2))
 
 
